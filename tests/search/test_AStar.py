@@ -39,12 +39,8 @@ if __name__ == "__main__":
                     num = self.matrix[i, j]
                     if num == 16:
                         continue
-                    q, r = num // 4, num % 4
-                    if r == 0:
-                        q -= 1
-                        r = 4
-                    r -= 1
-                    h += abs(q - i) + abs(r - j)
+                    q = (num - 1) // 4
+                    h += abs(q - i) + abs(num - q * 4 - 1 - j)
             return depth + h
 
         def __str__(self) -> str:
