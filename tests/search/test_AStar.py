@@ -77,7 +77,7 @@ if __name__ == "__main__":
             print(state)
             print()
 
-    # 随机生成并求解
+    # 随机生成状态并求解
     # for i in range(10):
     #     random_state = target_state.rand_gen(100)
     #     solution = AStar.solve(random_state, target_state)
