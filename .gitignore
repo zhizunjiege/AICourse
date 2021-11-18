@@ -1,0 +1,23 @@
+# Python cache files/directories
+*.pyc
+__pycache__
+
+# macOS generated files
+.DS_Store
+
+# Visual Studio cache/config directory
+.vs/
+
+# Visual Studio Code cache/config directory
+.vscode/
+
+# PyCharm cache/config directory
+.idea/
+
+# build targets
+dist/
+build/
+
+# temporary directory
+temp/
+tmp/
