@@ -1,4 +1,4 @@
-from src.search.a_star import StateBase, AStar
+from src.a_star import StateBase, AStar
 
 if __name__ == "__main__":
     import random

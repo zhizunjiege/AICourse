@@ -131,25 +131,25 @@ class AStar:
                     # 如果子节点状态等于当前节点的父节点，则忽略
                     continue
                 else:
-                    hash = child_node.hash
-                    if hash in open_dict:
+                    hash_value = child_node.hash
+                    if hash_value in open_dict:
                         # 如果子节点在open表中，比较其估价函数值以决定是否取代已有节点
-                        exist_node = open_dict[hash]
+                        exist_node = open_dict[hash_value]
                         if child_node.value < exist_node.value:
                             exist_node.removed = True
                             heapq.heappush(open_table, child_node)
-                            open_dict[hash] = child_node
-                    elif hash in closed_dict:
+                            open_dict[hash_value] = child_node
+                    elif hash_value in closed_dict:
                         # 如果子节点在closed表中，比较其估价函数值以决定是否删除已有节点，并重新加入open表中
-                        exist_node = closed_dict[hash]
+                        exist_node = closed_dict[hash_value]
                         if child_node.value < exist_node.value:
-                            del closed_dict[hash]
+                            del closed_dict[hash_value]
                             heapq.heappush(open_table, child_node)
-                            open_dict[hash] = child_node
+                            open_dict[hash_value] = child_node
                     else:
                         # 如果子节点即不在open表也不在closed表中，则直接加入open表
                         heapq.heappush(open_table, child_node)
-                        open_dict[hash] = child_node
+                        open_dict[hash_value] = child_node
                         search_nodes += 1
         # 如果节点均已扩展仍没有找到解，则失败退出
         t2 = time.time()
