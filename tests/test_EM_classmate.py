@@ -2,11 +2,11 @@ from src.em import EM
 
 if __name__ == "__main__":
     import numpy as np
-
-    samples = 2000  # 数据量
-    p, m1, m2, s1, s2 = 0.7, 175, 165, 5, 5  # 真实参数
+    import pandas as pd
 
     np.random.seed(0)  # 设定随机数种子
+
+    data = pd.read_csv("tests/groundtruth.csv")  # 读取数据
 
     def distri_func(x, z, u):
         if z[0] == 'm':
@@ -15,11 +15,9 @@ if __name__ == "__main__":
             p, m, s = 1 - u[0], u[2], u[4]
         return float(p * 1 / np.sqrt(2 * np.pi) / s * np.exp(-(x[0] - m)**2 / 2 / s**2))  # 先验：已知联合分布为高斯分布
 
-    male = np.random.normal(m1, s1, int(samples * p))
-    female = np.random.normal(m2, s2, int(samples * (1 - p)))
-    dataset = np.hstack([male, female]).reshape((-1, 1))  # 随机数据集
+    dataset = np.array(data['height']).reshape(-1, 1)  # 同学身高数据集
     latent_space = [['m'], ['f']]  # 先验：分男女两类
-    init_params = np.array([0.5, 180, 160, 10, 10])  # 先验：男生比女生高
+    init_params = np.array([0.7, 175, 165, 5, 5])  # 先验：男生比女生高
     iteration = 1000
     tolerance = 1e-4
     bounds = [(0.01, 0.99)] + [(0.01, None)] * 4  # 参数必须有一个非负下界，不然计算log时会出现负数报错
@@ -39,3 +37,11 @@ if __name__ == "__main__":
     print('求解完毕.')
 
     solution.print()
+
+    # 根据条件概率计算某个样本属于哪一类
+    theta = solution.theta
+    genders = ['male' if distri_func(x, 'm', theta) >= distri_func(x, 'f', theta) else 'female' for x in dataset]
+
+    pd.DataFrame({'gender': genders}).to_csv('tests/estimation.csv', index=None)
+
+    print('性别判断结果：', genders)

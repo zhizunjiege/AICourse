@@ -21,3 +21,6 @@ build/
 # temporary directory
 temp/
 tmp/
+
+# log file
+*.log
